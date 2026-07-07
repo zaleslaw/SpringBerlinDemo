@@ -154,17 +154,13 @@ The single-page UI at `/` offers three map display modes — **Points**, **Heatm
 
 ```
 Berlin Police HTML page
-  -> BerlinPolicePageClient
-  -> BerlinPolicePageParser (Jsoup)
-  -> List<RawDemonstrationRow>
-  -> DemonstrationNormalizer
-  -> List<NormalizedDemonstration>
-  -> ImpactClassifier (Kotlin DSL)
-  -> GeocoderService + geocode_cache (ConcurrentHashMap warm-up at startup)
-  -> List<Demonstration>
-  -> DemonstrationReadModel (AtomicReference snapshot)
-  -> Spring MVC API
-  -> Thymeleaf + vanilla JS + MapLibre GL
+  -> BerlinPolicePageClient            (fetch, force UTF-8)
+  -> BerlinPolicePageParser (Jsoup)    -> List<RawDemonstrationRow>
+  -> DemonstrationNormalizer           -> List<NormalizedDemonstration> + rejected rows
+  -> ImpactClassifier (Kotlin DSL)     -> ImpactAssessment (score + reasons)
+  -> GeocoderService + Nominatim       -> EventGeometry (Point | Unknown)
+  -> DemonstrationReadModel            (immutable AtomicReference snapshot)
+  -> Spring MVC API                    -> Thymeleaf + vanilla JS + MapLibre GL
 ```
 
 Events are not persisted as the primary model. The latest successful import is the current state. A failed import never replaces a good snapshot.
@@ -199,29 +195,6 @@ Impact is a purely **operational** score for moving through the city: route, dur
 | `Web server failed to start. Port 8080 was already in use` | Kill the occupying process or set `server.port=8081` in `application.yml` |
 
 ---
-
-## Implementation notes (Spring Boot 4 / Kotlin)
-
-Durable gotchas worth knowing when running or reading the project:
-
-- **Gradle needs JDK 17+, the build targets 21.** Point `JAVA_HOME` at a JDK 21 (e.g.
-  `~/.jdks/corretto-21.0.11`); a system default of Java 11 fails with "Unsupported class file
-  major version".
-- **PostGIS/pgcrypto must be created by a superuser** before first run (the `berlin_demo` user
-  cannot `CREATE EXTENSION`). `pgcrypto` provides `gen_random_uuid()`; PostGIS backs the
-  `geometry` columns in `V1`/`V2`.
-- **Flyway on Boot 4** is pulled via `spring-boot-starter-flyway` (+ `flyway-database-postgresql`),
-  not bare `flyway-core` — the autoconfiguration moved to that module.
-- **Jackson 3** ships as group `tools.jackson` / package `tools.jackson.databind` (not
-  `com.fasterxml.jackson`). Inject the container-managed `ObjectMapper` rather than `new`-ing one.
-- **`JdbcClient` + timestamps:** pass `OffsetDateTime.now(ZoneOffset.UTC)`, not `Instant` (no
-  direct JDBC mapping). For string columns use an explicit row mapper — `getString()` is nullable.
-- **berlin.de charset:** the page declares `iso-8859-1` but sends UTF-8; the client fetches bytes
-  and decodes UTF-8 explicitly.
-- **Import UX:** a two-phase import publishes a skeleton snapshot immediately, then geocodes
-  progressively (status via `/api/snapshot/status`, `geocodingComplete` flips when the loop ends).
-  Nominatim is rate-limited to 1 req/s and failed lookups are negatively cached (`confidence = -1`)
-  so they are never re-queried.
 
 ## Running tests
 

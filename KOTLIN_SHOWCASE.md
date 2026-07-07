@@ -251,16 +251,3 @@ Same Spring you know, less ceremony:
   `MockRestServiceServer` — no live network in tests (`geocoder/NominatimClient.kt` + its test).
 - **Scheduling / async / actuator** are the plain Spring annotations (`@Scheduled`, `@Async`,
   `/actuator/health`); the immutable read model is one `AtomicReference` swap.
-
----
-
-## Suggested demo order (matches the abstract)
-
-1. Show a messy source row → `RawDemonstrationRow` (all nullable) → `NormalizationResult` with a
-   rejected row surfaced in `/api/snapshot/status`.
-2. Open `ImpactRuleDsl` / `ImpactClassifier` — read a rule aloud, then show `reasons`/`evidence` on
-   an event card. "Not AI, and it can explain itself."
-3. Kill the network / point Nominatim at nothing → events still load, map degrades to `Unknown`,
-   timeline intact, no 500.
-4. Trigger two imports at once → one `202`, one `409`; force a mid-import failure → the previous
-   snapshot is still served.
