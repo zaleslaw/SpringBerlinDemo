@@ -1,0 +1,37 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: berlin-demo-map
+  main:
+    lazy-initialization: false
+  datasource:
+    url: jdbc:postgresql://localhost:5432/berlin_demo
+    username: berlin_demo
+    password: ${DB_PASSWORD:berlin_demo}
+    hikari:
+      initialization-fail-timeout: 30000
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+app:
+  source:
+    url: "https://www.berlin.de/polizei/service/versammlungsbehoerde/versammlungen-aufzuege/"
+  import-job:
+    cron: "0 15 */4 * * *"
+  internal:
+    token: ${APP_INTERNAL_TOKEN:dev-token}
+  geocoder:
+    base-url: "https://nominatim.openstreetmap.org"
+    user-agent: "berlin-demo-map/0.1"
+    min-delay-ms: 1100
+    external-calls-enabled: true
+    cache-enabled: true

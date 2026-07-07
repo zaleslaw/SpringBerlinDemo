@@ -1,0 +1,14 @@
+spring:
+  config:
+    activate:
+      on-profile: offline
+  datasource:
+    hikari:
+      initialization-fail-timeout: -1
+  flyway:
+    enabled: false
+
+app:
+  geocoder:
+    cache-enabled: false
+    external-calls-enabled: false

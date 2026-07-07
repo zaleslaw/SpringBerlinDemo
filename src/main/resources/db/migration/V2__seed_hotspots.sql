@@ -1,0 +1,30 @@
+insert into hotspot (name, category, weight, geom) values
+    ('Brandenburger Tor',      'landmark',    10, ST_SetSRID(ST_MakePoint(13.3777, 52.5163), 4326)),
+    ('Alexanderplatz',         'landmark',    10, ST_SetSRID(ST_MakePoint(13.4131, 52.5219), 4326)),
+    ('Reichstag',              'government',  10, ST_SetSRID(ST_MakePoint(13.3762, 52.5186), 4326)),
+    ('Kottbusser Tor',         'public_space', 8, ST_SetSRID(ST_MakePoint(13.4185, 52.4993), 4326)),
+    ('Hermannplatz',           'public_space', 8, ST_SetSRID(ST_MakePoint(13.4249, 52.4872), 4326)),
+    ('Sonnenallee',            'street',       7, ST_SetSRID(ST_MakePoint(13.4375, 52.4800), 4326)),
+    ('Checkpoint Charlie',     'landmark',    7, ST_SetSRID(ST_MakePoint(13.3903, 52.5075), 4326)),
+    ('US Embassy',             'embassy',      9, ST_SetSRID(ST_MakePoint(13.3793, 52.5142), 4326)),
+    ('Russian Embassy',        'embassy',      9, ST_SetSRID(ST_MakePoint(13.3882, 52.5157), 4326)),
+    ('Israeli Embassy',        'embassy',      9, ST_SetSRID(ST_MakePoint(13.3412, 52.4973), 4326)),
+    ('Ostbahnhof',             'station',      6, ST_SetSRID(ST_MakePoint(13.4346, 52.5106), 4326)),
+    ('Hauptbahnhof',           'station',      6, ST_SetSRID(ST_MakePoint(13.3694, 52.5251), 4326)),
+    ('Potsdamer Platz',        'landmark',    8, ST_SetSRID(ST_MakePoint(13.3761, 52.5096), 4326)),
+    ('Tempodrom',              'venue',        6, ST_SetSRID(ST_MakePoint(13.3794, 52.5028), 4326)),
+    ('Rathaus Neukoelln',      'government',  5, ST_SetSRID(ST_MakePoint(13.4345, 52.4826), 4326));
+
+insert into district (name, name_normalized) values
+    ('Mitte',              'mitte'),
+    ('Friedrichshain-Kreuzberg', 'friedrichshain-kreuzberg'),
+    ('Pankow',             'pankow'),
+    ('Charlottenburg-Wilmersdorf', 'charlottenburg-wilmersdorf'),
+    ('Spandau',            'spandau'),
+    ('Steglitz-Zehlendorf','steglitz-zehlendorf'),
+    ('Tempelhof-Schöneberg','tempelhof-schoeneberg'),
+    ('Neukölln',           'neukoelln'),
+    ('Treptow-Köpenick',   'treptow-koepenick'),
+    ('Marzahn-Hellersdorf','marzahn-hellersdorf'),
+    ('Lichtenberg',        'lichtenberg'),
+    ('Reinickendorf',      'reinickendorf');

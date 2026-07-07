@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Berlin Demo Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+
+<header>
+    <div class="header-inner">
+        <h1>Berlin Demo Map</h1>
+        <span id="stale-warning" class="stale-warning hidden">Data may be stale. Last import: <span id="fetched-at"></span></span>
+    </div>
+</header>
+
+<div class="filters">
+    <label class="date-range-label">
+        <span id="date-range-display">All dates</span>
+        <div class="date-range-wrap">
+            <input type="range" id="range-from" min="0" max="100" value="0">
+            <input type="range" id="range-to"   min="0" max="100" value="100">
+            <div class="range-track"><div class="range-fill" id="range-fill"></div></div>
+        </div>
+    </label>
+    <label>
+        District
+        <select id="filter-district">
+            <option value="">All districts</option>
+        </select>
+    </label>
+    <label>
+        Impact level
+        <select id="filter-impact">
+            <option value="">Any</option>
+            <option value="LOW">Low</option>
+            <option value="MEDIUM">Medium</option>
+            <option value="HIGH">High</option>
+            <option value="VERY_HIGH">Very High</option>
+        </select>
+    </label>
+    <label>
+        Category
+        <select id="filter-category">
+            <option value="">Any</option>
+            <option value="EDUCATION_BUDGET">Education / Budget</option>
+            <option value="LABOR_SOCIAL_HOUSING">Labor / Social / Housing</option>
+            <option value="HEALTH_CARE">Health / Care</option>
+            <option value="CLIMATE_ENVIRONMENT">Climate / Environment</option>
+            <option value="MOBILITY_TRANSPORT">Mobility / Transport</option>
+            <option value="LOCAL_CIVIC">Local Civic</option>
+            <option value="HUMAN_RIGHTS_REPRESSIONS">Human Rights</option>
+            <option value="PEACE_GEOPOLITICS">Peace / Foreign Policy</option>
+            <option value="INTERNATIONAL_CONFLICT">International Conflict</option>
+            <option value="DEMOCRACY_MEMORY_ANTI_EXTREMISM">Democracy / Memory</option>
+            <option value="SYSTEM_CRITIQUE_PANDEMIC">System-critical / Pandemic</option>
+            <option value="FAITH_IDENTITY_CULTURE">Faith / Identity / Culture</option>
+            <option value="CULTURE_FESTIVAL">Cultural</option>
+            <option value="OTHER_POLITICAL">Political</option>
+            <option value="OTHER">Other</option>
+        </select>
+    </label>
+    <label>
+        Display Mode
+        <select id="display-mode">
+            <option value="points">Events / Points</option>
+            <option value="heatmap">Heatmap</option>
+            <option value="plz">PLZ</option>
+        </select>
+    </label>
+    <button id="btn-refresh">Refresh</button>
+    <button id="btn-export-csv"><span class="btn-icon">&#128202;</span>Export CSV</button>
+</div>
+
+<div class="main-layout" id="main-layout-wrapper">
+    <div id="map-container">
+        <div id="map"></div>
+        <div id="map-loading" class="overlay-msg hidden">Loading map data…</div>
+        <div id="map-empty" class="overlay-msg hidden">No events to show on map.</div>
+    </div>
+    <div id="timeline-panel">
+        <div id="timeline-loading" class="panel-msg hidden">Loading…</div>
+        <div id="timeline-empty" class="panel-msg">No data loaded yet.</div>
+        <div id="timeline-list"></div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script th:src="@{/app.js}"></script>
+</body>
+</html>
