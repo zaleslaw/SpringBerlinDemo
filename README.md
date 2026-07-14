@@ -4,6 +4,19 @@ A Kotlin + Spring Boot application that parses the Berlin Police public assembly
 
 Built as a demo project for a Java/Spring Meetup to showcase idiomatic Kotlin in a Spring Boot context.
 
+## Screenshots
+
+The UI supports three interactive map display modes:
+
+**Points view** — one marker per demonstration, with filters and timeline.  
+![Points view](docs/ui/mainscreen.png)
+
+**Heatmap view** — density of protest activity across the city.  
+![Heatmap view](docs/ui/heatmap.png)
+
+**PLZ view** — choropleth of event counts per Berlin postal code.  
+![PLZ view](docs/ui/plz.png)
+
 ---
 
 ## Requirements
